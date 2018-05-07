@@ -1,0 +1,74 @@
+
+a {
+    text-decoration: none !important;
+}
+
+body {
+    padding-top: 54px;
+}
+
+@media (min-width: 992px) {
+    body {
+        padding-top: 56px;
+    }
+}
+
+
+/* Footer */
+footer {
+    color: white;
+}
+
+.nav-link {
+    color: white;
+    padding: 2px 1px;
+}
+/* Footer End*/
+
+
+/* Card */
+.card > .card-body > .card-info {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: .50rem;
+    color: rgba(122, 122, 122, 0.80);
+}
+
+    .card > .card-body > .card-info a {
+        color: rgba(122, 122, 122, 0.80);
+    }
+
+        .card > .card-body > .card-info a:hover {
+            color: #0056b3
+        }
+
+.card > .card-body > .card-title {
+    margin-bottom: .50rem;
+}
+
+.card > .card-body > .card-text a {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.card-footer {
+    padding: .40rem 1.25rem;
+}
+
+.card > .card-footer button {
+    color: #d40d0d;
+}
+
+    .card > .card-footer button:hover {
+        color: #a70909;
+    }
+/* Card End*/
+
+
+/* Categories */
+.list-group-item {
+    padding: .50rem 1rem;
+}
+/* Categories End */

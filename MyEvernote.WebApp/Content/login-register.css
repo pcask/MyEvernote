@@ -1,0 +1,79 @@
+﻿
+body {
+    background-color: #f5f5f5;
+}
+
+label {
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 420px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-container {
+    background-color: white;
+    padding: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+.form-label-group {
+    position: relative;
+    margin-bottom: 1rem;
+    font-size: 14px;
+}
+
+    .form-label-group > label:hover {
+        cursor: text;
+    }
+
+
+.custom-control-label:hover {
+    cursor: pointer;
+}
+
+#contract {
+    text-decoration: underline !important;
+}
+
+
+/* Hatalı giriş yapılan TextBox'lara otomatik eklenen sınıf */
+.input-validation-error {
+    border-color: #ef0a21;
+}
+
+.validation-summary-errors > ul {
+    list-style: none;
+    margin: 0px;
+    color: #ef0a21;
+    padding: 0px 20px;
+    margin-bottom: 20px;
+}
+
+
+    .validation-summary-errors > ul > li:before {
+        content: "\f057"; /* FontAwesome Unicode */
+        font-family: FontAwesome;
+        display: inline-block;
+        margin-left: -1.3em; /* same as padding-left set on li */
+        width: 1.3em; /* same as padding-left set on li */
+        color: #ef0a21;
+    }
+
+
+.contractWarning::before {
+    background-color: white;
+    border: 1px solid #ef0a21;
+}
+
+.info {
+    color: #007bff;
+    margin-top: -20px;
+}
+
+    .info > i {
+        width: 1em;
+    }

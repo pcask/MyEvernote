@@ -1,0 +1,70 @@
+﻿
+@model MyEvernote.Entities.ValueObjects.LoginVO
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<link href="~/Content/login-register.css" rel="stylesheet" />
+
+
+<div class="form-signin mt-2">
+
+    <div class="form-container">
+
+        <div class="text-center mb-4">
+            <h1 class="h3 mb-3 font-weight-normal">My Evernote Giriş</h1>
+        </div>
+
+        @Html.ValidationSummary(false)
+
+        @if (ViewBag.Info != null)
+        {
+            <p class="info"><i class="fa fa-info-circle"></i> @ViewBag.Info</p>
+        }
+
+        @using (Html.BeginForm())
+        {
+            <div class="form-label-group">
+                <label>Kullanıcı Adı</label>
+                @Html.TextBoxFor(x => x.Username, new { @class = "form-control" })
+            </div>
+
+            <div class="form-label-group">
+                <label>Şifre</label>
+                @Html.TextBoxFor(x => x.Password, new { @class = "form-control", type = "password" })
+            </div>
+
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                <label class="custom-control-label" for="customCheck1">Beni hatırla!</label>
+                <a href="#" class="float-right">Şifremi Unuttum!</a>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Giriş Yap</button>
+        }
+
+
+        <div class="helperLink mt-4 text-center">
+            <p class="mb-0">
+                Hesabınız yok mu? <a href="/Home/Register">Hemen oluştur!</a>
+            </p>
+        </div>
+
+    </div>
+
+    <p class="mt-5 mb-3 text-muted text-center">MyEvernote &copy; @DateTime.Now.Year</p>
+
+</div>
+
+
+@section myScript{
+
+    <script>
+        $(function () {
+            $("footer").hide();
+        });
+    </script>
+
+}
+

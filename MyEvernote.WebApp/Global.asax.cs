@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyEvernote.Common;
+using MyEvernote.WebApp.InitializerObject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +15,9 @@ namespace MyEvernote.WebApp
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+
+            App.common = new WebCommon();
         }
     }
 }

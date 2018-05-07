@@ -1,0 +1,81 @@
+﻿
+@model MyEvernote.Entities.ValueObjects.RegisterVO
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<link href="~/Content/login-register.css" rel="stylesheet" />
+
+<div class="form-signin mt-2">
+
+    <div class="form-container">
+
+        <div class="text-center mb-4">
+            <h1 class="h3 mb-3 font-weight-normal">My Evernote Kayıt</h1>
+        </div>
+
+        @Html.ValidationSummary(false)
+
+
+        @using (Html.BeginForm())
+        {
+            <div class="form-label-group">
+                <label>E-posta Adresi</label>
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+            </div>
+
+            <div class="form-label-group">
+                <label>Kullanıcı Adı</label>
+                @Html.TextBoxFor(x => x.Username, new { @class = "form-control" })
+            </div>
+
+            <div class="form-label-group">
+                <label>Şifre</label>
+                @Html.TextBoxFor(x => x.Password, new { @class = "form-control", type = "password" })
+            </div>
+
+            <div class="form-label-group">
+                <label>Şifre Tekrar</label>
+                @Html.TextBoxFor(x => x.RePassword, new { @class = "form-control", type = "password" })
+            </div>
+
+            <div class="custom-control custom-checkbox mb-3">
+                @Html.CheckBoxFor(x => x.ContractAccepted, new { @class = "custom-control-input", id = "chkContract", })
+                <label class="custom-control-label" for="chkContract">Hizmet <a id="contract" href="#">sözleşmesini</a> onaylıyorum!</label>
+            </div>
+
+            <button id="btnRegister" class="btn btn-lg btn-primary btn-block" type="submit">Kayıt Ol</button>
+        }
+
+        <div class="helperLink mt-3 text-center">
+            <p class="mb-0">
+                Zaten bir hesabınız var mı? <a href="/Home/Login">Giriş yap!</a>
+            </p>
+        </div>
+
+    </div>
+
+    <p class="mt-5 mb-3 text-muted text-center">MyEvernote &copy; @DateTime.Now.Year</p>
+
+</div>
+
+@section myScript{
+
+    <script>
+        $(function () {
+
+            $("footer").hide();
+
+            if ('@(Model?.ContractAccepted)' == 'False') {
+                if ($("#chkContract").is(":checked") == false) {
+                    $(".custom-control-label").addClass("contractWarning")
+                }
+            }
+
+        });
+    </script>
+
+}
+
+

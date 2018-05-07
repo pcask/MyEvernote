@@ -1,0 +1,51 @@
+﻿
+
+@{
+    ViewBag.Title = "Registration Successful";
+}
+
+
+<div class="container">
+    <div class="jumbotron mt-4">
+        <h1>Tebrikler</h1>
+        <p class="lead">Kayıt işleminiz başarılı bir şekilde gerçekleştirilmiştir. Lütfen <b>e-posta</b> adresinize gönderilen <b>aktivasyon linkine</b> tıklayarak hesabınızı aktive ediniz. </p>
+        <hr class="my-4">
+        <p>
+            <span id="counter">10</span> Saniye sonra giriş sayfasına yönlendirileceksiniz
+            <img src="~/Images/loader.gif" width="20" height="15" style="margin-bottom: 4px;" />
+        </p>
+
+        <p class="mt-5 mb-0 text-muted text-center">MyEvernote &copy; @DateTime.Now.Year</p>
+    </div>
+</div>
+
+
+
+
+
+@section myScript{
+
+    <script>
+        $(function () {
+            $("footer").hide();
+
+            var countDown = parseInt($("#counter").text());
+
+            var counterFunc = setInterval(function () {
+
+                if (countDown == 1) {
+                    clearInterval(counterFunc);
+                    window.location.href = "/Home/Login";
+                }
+
+                countDown--;
+                $("#counter").text(countDown);
+
+            }, 1000);
+
+        });
+    </script>
+
+}
+
+
