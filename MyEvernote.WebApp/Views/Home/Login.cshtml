@@ -6,6 +6,7 @@
 }
 
 <link href="~/Content/login-register.css" rel="stylesheet" />
+<link href="~/Content/myEvernoteValidationSummary.css" rel="stylesheet" />
 
 
 <div class="form-signin mt-2">
@@ -16,11 +17,17 @@
             <h1 class="h3 mb-3 font-weight-normal">My Evernote Giriş</h1>
         </div>
 
+        @* Hataların Gösterildiği Liste *@
         @Html.ValidationSummary(false)
 
-        @if (ViewBag.Info != null)
+
+        @* Uyarıların Gösterildiği Liste *@
+        @if (ViewBag.InfoList != null)
         {
-            <p class="info"><i class="fa fa-info-circle"></i> @ViewBag.Info</p>
+            foreach (var info in ViewBag.InfoList)
+            {
+                <p class="info"><i class="fa fa-info-circle"></i> @info</p>
+            }
         }
 
         @using (Html.BeginForm())
@@ -56,15 +63,3 @@
     <p class="mt-5 mb-3 text-muted text-center">MyEvernote &copy; @DateTime.Now.Year</p>
 
 </div>
-
-
-@section myScript{
-
-    <script>
-        $(function () {
-            $("footer").hide();
-        });
-    </script>
-
-}
-

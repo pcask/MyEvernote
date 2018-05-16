@@ -45,13 +45,12 @@
             </div>
 
             <!-- Notlar -->
-
             <div class="row">
                 <div class="col-sm-12">
                     <h5>
                         @if (!String.IsNullOrEmpty(ViewBag.Baslik))
                         {
-                            @ViewBag.Baslik 
+                            @ViewBag.Baslik
                         }
                         else
                         {
@@ -122,3 +121,10 @@
     </div>
 
 </div>
+
+
+@section footer{
+
+    @Html.Partial("_PartialFooter")
+
+}

@@ -1,0 +1,67 @@
+﻿
+@using MyEvernote.Entities;
+@model EvernoteUser
+
+@{
+    ViewBag.Title = "Profilim";
+}
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12 mt-5 mb-3">
+            <h2>@ViewBag.Title</h2>
+        </div>
+    </div>
+
+    <div class="jumbotron">
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <img src="~/Images/Users/@Model.ProfileImageFileName" class="img-thumbnail" />
+            </div>
+
+            <div class="col-md-5 mt-3 mt-md-0 mt-lg-0">
+                <h3>@(Model.Name + " " + Model.Surname)</h3> <br />
+
+                <h6><b>Kullanıcı Adı : </b>@Model.Username</h6>
+
+                <h6><b>E-mail Adresi : </b>@Model.Email</h6> <br />
+
+                <h6> <a href="#">daha fazlası...</a></h6>
+            </div>
+
+            <div class="col-md-3 text-right">
+
+                <div class="btn-group mt-3 mt-md-0 mt-lg-0">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-cog"></i>&nbsp;&nbsp;
+                        İşlemler
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/Home/EditProfile">
+                            <i class="fa fa-edit"></i>
+                            Düzenle
+                        </a>
+                        <a class="dropdown-item" href="/Home/ChangePass">
+                            <i class="fa fa-key"></i>
+                            Şifre Değiştir
+                        </a>
+                        <a class="dropdown-item" href="/Home/DeleteProfile" onclick="return confirm('Hesabınızı Silmek İstediğinizi Emin Misiniz?')">
+                            <i class="fa fa-trash-o"></i>
+                            Sil
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br /><br /><br />
+
+</div>
+

@@ -1,0 +1,39 @@
+﻿
+
+/* Hatalı giriş yapılan TextBox'lara otomatik eklenen sınıf */
+.input-validation-error {
+    border-color: #ef0a21;
+}
+
+.validation-summary-errors > ul {
+    list-style: none;
+    margin: 0px;
+    color: #ef0a21;
+    padding: 0px 20px;
+    margin-bottom: 20px;
+}
+
+
+    .validation-summary-errors > ul > li:before {
+        content: "\f057"; /* FontAwesome Unicode */
+        font-family: FontAwesome;
+        display: inline-block;
+        margin-left: -1.3em; /* same as padding-left set on li */
+        width: 1.3em; /* same as padding-left set on li */
+        color: #ef0a21;
+    }
+
+
+.contractWarning::before {
+    background-color: white;
+    border: 1px solid #ef0a21;
+}
+
+.info {
+    color: #007bff;
+    margin-top: -20px;
+}
+
+    .info > i {
+        width: 1em;
+    }

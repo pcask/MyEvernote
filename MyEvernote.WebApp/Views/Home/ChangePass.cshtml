@@ -1,0 +1,63 @@
+﻿
+@model MyEvernote.Entities.ValueObjects.ChangePasswordVO
+
+@{
+    ViewBag.Title = "Şifre Değiştir";
+}
+
+<link href="~/Content/myEvernoteValidationSummary.css" rel="stylesheet" />
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12 mt-5 mb-3">
+            <h2>@ViewBag.Title</h2>
+        </div>
+    </div>
+
+    <div class="jumbotron pt-4">
+
+        <div class="row">
+
+            <div class="col-sm-12">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.ValidationSummary(false)
+
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.CuPassword, htmlAttributes: new { @class = "col-form-label col-sm-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.CuPassword, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.Password, htmlAttributes: new { @class = "col-form-label col-sm-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.RePassword, htmlAttributes: new { @class = "col-form-label col-sm-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.RePassword, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group row justify-content-end">
+                        <button type="submit" class="btn btn-primary mr-3">Değiştir</button>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br /><br /><br />
+
+</div>
+

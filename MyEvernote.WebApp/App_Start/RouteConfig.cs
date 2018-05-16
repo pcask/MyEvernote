@@ -14,10 +14,18 @@ namespace MyEvernote.WebApp
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "UserActivate",
+                url: "Home/UserActivate/{activateID}",
+                defaults: new { controller = "Home", action = "UserActivate", activateID = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+
         }
     }
 }

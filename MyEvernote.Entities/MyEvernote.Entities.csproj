@@ -46,10 +46,12 @@
     <Compile Include="EvernoteUser.cs" />
     <Compile Include="Liked.cs" />
     <Compile Include="Messages\ErrorCode.cs" />
+    <Compile Include="Messages\InfoCode.cs" />
     <Compile Include="MyEntityBase.cs" />
     <Compile Include="Note.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueObjects\LoginVO.cs" />
+    <Compile Include="ValueObjects\ChangePasswordVO.cs" />
     <Compile Include="ValueObjects\RegisterVO.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

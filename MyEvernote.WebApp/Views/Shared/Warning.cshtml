@@ -1,0 +1,63 @@
+﻿
+@model MyEvernote.WebApp.ViewModels.WarningViewModel
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<div class="container">
+    <div class="jumbotron mt-4">
+        <h1>@Model.Header</h1>
+        <p class="lead">@Model.Title</p>
+        <hr class="my-4">
+
+        @if (Model.Items.Count > 0)
+        {
+            foreach (string msg in Model.Items)
+            {
+                <p class="lead" style="color:#ff6a00;"><i class="fa fa-exclamation-triangle"></i> @msg</p>
+            }
+        }
+
+        @if (Model.IsRedirecting)
+        {
+            <p>
+                <span id="counter">@(Model.RedirectingTimeout / 100)</span> Saniye sonra @(Model.RedirectingPageName) sayfasına yönlendirileceksiniz
+                <img src="~/Images/loader.gif" width="20" height="15" style="margin-bottom: 4px;" />
+            </p>
+        }
+
+
+        <p class="mt-5 mb-0 text-muted text-center">MyEvernote &copy; @DateTime.Now.Year</p>
+    </div>
+</div>
+
+@{
+    string js = "";
+
+    if (Model.IsRedirecting)
+    {
+        js = "var countDown = parseInt($('#counter').text()); ";
+        js += "var counterFunc = setInterval(function () { ";
+        js += "if (countDown == 1) { clearInterval(counterFunc); window.location.href = '" + Model.RedirectingUrl + "'; } ";
+        js += "countDown--; $('#counter').text(countDown); ";
+        js += "}, 1000);";
+    }
+}
+
+
+@section myScript{
+
+    <script>
+
+    $(function () {
+
+        $("footer").hide();
+
+        @Html.Raw(js);
+
+    });
+
+    </script>
+
+}

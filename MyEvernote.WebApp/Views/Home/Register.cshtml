@@ -6,6 +6,7 @@
 }
 
 <link href="~/Content/login-register.css" rel="stylesheet" />
+<link href="~/Content/myEvernoteValidationSummary.css" rel="stylesheet" />
 
 <div class="form-signin mt-2">
 
@@ -64,8 +65,6 @@
 
     <script>
         $(function () {
-
-            $("footer").hide();
 
             if ('@(Model?.ContractAccepted)' == 'False') {
                 if ($("#chkContract").is(":checked") == false) {
