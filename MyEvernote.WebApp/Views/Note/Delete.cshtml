@@ -1,0 +1,96 @@
+﻿@model MyEvernote.Entities.Note
+
+@{
+    ViewBag.Title = "Notu Sil";
+}
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12 mt-5 mb-3">
+            <h2>@ViewBag.Title</h2>
+        </div>
+    </div>
+
+    <div class="jumbotron">
+
+        <div class="row">
+
+            <div class="col-sm-12">
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Title)
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.Text)
+                        </b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Text)
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.Category.Title)
+                        </b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Category.Title)
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.IsDraft)
+                        </b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.IsDraft)
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.LikeCount)
+                        </b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.LikeCount)
+                    </div>
+                </div>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group row justify-content-end">
+
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Notu Silmek İstediğinize Emin Misiniz?')"><i class="fa fa-trash"></i> Sil</button>
+                        @Bootstrap.LinkButton("/Note/Index", "dark", "mx-3", String.Empty, "reply", "Geri Dön")
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+

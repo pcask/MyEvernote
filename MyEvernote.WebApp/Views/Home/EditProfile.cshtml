@@ -79,8 +79,10 @@
                     </div>
 
                     <div class="form-group row justify-content-end">
-                        <button type="submit" class="btn btn-success">Güncelle</button>
-                        <a href="/Home/ShowProfile" class="btn btn-info mx-3">İptal</a>
+
+                        @Bootstrap.Button("submit", "success", String.Empty, "save", "Kaydet")
+                        @Bootstrap.LinkButton("/Home/Index", "dark", "mx-3", String.Empty, "reply", "Geri Dön")
+
                     </div>
                 </div>
 

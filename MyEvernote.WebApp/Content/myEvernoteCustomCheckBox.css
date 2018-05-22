@@ -1,0 +1,20 @@
+﻿
+.custom-control-label:hover {
+    cursor: pointer;
+}
+
+.custom-control-label::before {
+    left: 180px;
+    top: 3px;
+    background-color: white;
+    border: 1px solid #989898;
+}
+
+.custom-control-label::after {
+    left: 180px;
+    top: 3px;
+}
+
+.custom-control {
+    padding: 0;
+}

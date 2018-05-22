@@ -1,4 +1,5 @@
 ﻿using MyEvernote.BusinessLayer;
+using MyEvernote.BusinessLayer.Results;
 using MyEvernote.Entities;
 using MyEvernote.Entities.Messages;
 using MyEvernote.Entities.ValueObjects;
@@ -14,19 +15,13 @@ namespace MyEvernote.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        NoteManager nm = new NoteManager();
-        CategoryManager cm = new CategoryManager();
-        EvernoteUserManager eum = new EvernoteUserManager();
+        private NoteManager nm = new NoteManager();
+        private CategoryManager cm = new CategoryManager();
+        private EvernoteUserManager eum = new EvernoteUserManager();
 
         public ActionResult Index()
         {
-            // CategoryController üzerinden gelen view talebi ile gönderilen model;
-            //if (TempData["notesByCategory"] != null)
-            //    return View(TempData["notesByCategory"] as List<Note>);
-
-            List<Note> notes = nm.GetNotes(0, 6);
-
-            return View(notes);
+            return View(nm.QueryableList().OrderByDescending(n => n.ModifiedOn).Take(6).ToList());
         }
 
         public ActionResult ByCategory(int? id)
@@ -34,21 +29,18 @@ namespace MyEvernote.WebApp.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            // Burada kategorinin kendisini direk çağırırsak kategori altındaki bütün notlarda ram'e çıkmış olacak. Hoş değil
-            // Category cat = cm.GetCategoryById(id.Value);
-
             Category cat = cm.GetCategoryById(id.Value, true);
             if (cat == null)
                 return HttpNotFound();
 
             ViewBag.Baslik = cat.Title + " Notları";
-            return View("Index", nm.GetNotesByCategoryId(cat.Id, 0, 6));
+            return View("Index", nm.QueryableList().Where(n => n.CategoryId == id.Value).OrderByDescending(m => m.ModifiedOn).Take(6).ToList());
         }
 
         public ActionResult MostLiked()
         {
             ViewBag.Baslik = "En Beğenilen Notlar";
-            return View("Index", nm.GetNotesByMostLiked(0, 6));
+            return View("Index", nm.QueryableList().OrderByDescending(n => n.LikeCount).Take(6).ToList());
         }
 
         public ActionResult About()

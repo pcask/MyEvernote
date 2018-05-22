@@ -72,3 +72,8 @@ footer {
     padding: .50rem 1rem;
 }
 /* Categories End */
+
+
+.dropdown-toggle:after {
+    vertical-align: 0.15em !important;
+}

@@ -1,4 +1,6 @@
-﻿using MyEvernote.Common.Helpers;
+﻿using MyEvernote.BusinessLayer.Abstract;
+using MyEvernote.BusinessLayer.Results;
+using MyEvernote.Common.Helpers;
 using MyEvernote.DataAccessLayer.EF;
 using MyEvernote.Entities;
 using MyEvernote.Entities.Messages;
@@ -12,14 +14,12 @@ using System.Web.Helpers;
 
 namespace MyEvernote.BusinessLayer
 {
-    public class EvernoteUserManager
+    public class EvernoteUserManager : ManagerBase<EvernoteUser>
     {
-        private Repository<EvernoteUser> userRepo = new Repository<EvernoteUser>();
-
         public BusinessLayerResult<EvernoteUser> RegisterUser(RegisterVO data)
         {
             BusinessLayerResult<EvernoteUser> blr = new BusinessLayerResult<EvernoteUser>();
-            EvernoteUser user = userRepo.Find(x => x.Username == data.Username || x.Email == data.Email);
+            EvernoteUser user = Find(x => x.Username == data.Username || x.Email == data.Email);
 
             if (user != null)
             {
@@ -31,7 +31,7 @@ namespace MyEvernote.BusinessLayer
             }
             else
             {
-                int affectedRow = userRepo.Insert(new EvernoteUser
+                int affectedRow = base.Insert(new EvernoteUser
                 {
                     Username = data.Username,
                     Email = data.Email,
@@ -44,7 +44,7 @@ namespace MyEvernote.BusinessLayer
 
                 if (affectedRow > 0)
                 {
-                    blr.Result = userRepo.Find(x => x.Username == data.Username && x.Email == data.Email);
+                    blr.Result = Find(x => x.Username == data.Username && x.Email == data.Email);
 
                     string siteUri = ConfigHelper.Get<string>("SiteRootUri");
                     string activateUri = $"{siteUri}/Home/UserActivate/{blr.Result.ActivateGuid}";
@@ -60,7 +60,7 @@ namespace MyEvernote.BusinessLayer
         public BusinessLayerResult<EvernoteUser> ActivateUser(Guid activateId)
         {
             BusinessLayerResult<EvernoteUser> blr = new BusinessLayerResult<EvernoteUser>();
-            blr.Result = userRepo.Find(x => x.ActivateGuid == activateId);
+            blr.Result = Find(x => x.ActivateGuid == activateId);
 
             if (blr.Result != null)
             {
@@ -72,7 +72,7 @@ namespace MyEvernote.BusinessLayer
                 }
 
                 blr.Result.IsActive = true;
-                userRepo.Update(blr.Result);
+                Update(blr.Result);
             }
             else
             {
@@ -85,7 +85,7 @@ namespace MyEvernote.BusinessLayer
         public BusinessLayerResult<EvernoteUser> LoginUser(LoginVO data)
         {
             BusinessLayerResult<EvernoteUser> blr = new BusinessLayerResult<EvernoteUser>();
-            blr.Result = userRepo.Find(x => x.Username == data.Username);
+            blr.Result = Find(x => x.Username == data.Username);
 
             if (blr.Result != null)
             {
@@ -121,7 +121,7 @@ namespace MyEvernote.BusinessLayer
         public BusinessLayerResult<EvernoteUser> GetUserById(int id)
         {
             BusinessLayerResult<EvernoteUser> blr = new BusinessLayerResult<EvernoteUser>();
-            blr.Result = userRepo.Find(x => x.Id == id);
+            blr.Result = Find(x => x.Id == id);
 
             if (blr.Result == null)
             {
@@ -134,7 +134,7 @@ namespace MyEvernote.BusinessLayer
         public BusinessLayerResult<EvernoteUser> ChangePass(EvernoteUser currrentUser, ChangePasswordVO data)
         {
             BusinessLayerResult<EvernoteUser> blr = new BusinessLayerResult<EvernoteUser>();
-            blr.Result = userRepo.Find(x => x.Id == currrentUser.Id);
+            blr.Result = Find(x => x.Id == currrentUser.Id);
 
             if (blr.Result != null)
             {
@@ -147,7 +147,7 @@ namespace MyEvernote.BusinessLayer
                     if (data.Password == data.RePassword)
                     {
                         blr.Result.Password = Crypto.HashPassword(data.Password);
-                        userRepo.Update(blr.Result);
+                        Update(blr.Result);
                     }
                     else
                     {
@@ -165,7 +165,7 @@ namespace MyEvernote.BusinessLayer
 
         public BusinessLayerResult<EvernoteUser> UpdateProfile(EvernoteUser data)
         {
-            EvernoteUser db_user = userRepo.Find(x => (x.Username == data.Username || x.Email == data.Email) && x.Id != data.Id);
+            EvernoteUser db_user = Find(x => (x.Username == data.Username || x.Email == data.Email) && x.Id != data.Id);
             BusinessLayerResult<EvernoteUser> blr = new BusinessLayerResult<EvernoteUser>();
 
             if (db_user != null)
@@ -184,7 +184,7 @@ namespace MyEvernote.BusinessLayer
             }
 
 
-            blr.Result = userRepo.Find(x => x.Id == data.Id);
+            blr.Result = Find(x => x.Id == data.Id);
 
             blr.Result.Username = data.Username;
             blr.Result.Email = data.Email;
@@ -197,7 +197,7 @@ namespace MyEvernote.BusinessLayer
             }
 
 
-            if (userRepo.Update(blr.Result) == 0)
+            if (base.Update(blr.Result) == 0)
             {
                 blr.AddError(ErrorCode.ProfileCouldNotUpdated, "Profil güncellenemedi!");
             }
@@ -209,11 +209,11 @@ namespace MyEvernote.BusinessLayer
         {
             BusinessLayerResult<EvernoteUser> blr = new BusinessLayerResult<EvernoteUser>();
 
-            blr.Result = userRepo.Find(x => x.Id == id);
+            blr.Result = Find(x => x.Id == id);
 
             if (blr.Result != null)
             {
-                if (userRepo.Delete(blr.Result) == 0)
+                if (Delete(blr.Result) == 0)
                 {
                     blr.AddError(ErrorCode.UserCouldNotRemove, "Kullanıcı silme işlemi başarısız!");
                     return blr;
@@ -222,6 +222,75 @@ namespace MyEvernote.BusinessLayer
             else
             {
                 blr.AddError(ErrorCode.UserNotFound, "Kullanıcı bulunamadı");
+            }
+
+            return blr;
+        }
+
+        // Method Hiding
+        public new BusinessLayerResult<EvernoteUser> Insert(EvernoteUser data)
+        {
+            EvernoteUser user = Find(x => x.Username == data.Username || x.Email == data.Email);
+            BusinessLayerResult<EvernoteUser> blr = new BusinessLayerResult<EvernoteUser>();
+
+            blr.Result = data;
+
+            if (user != null)
+            {
+                if (user.Username == data.Username)
+                    blr.AddError(ErrorCode.UsernameAlreadyExists, "Bu kullanıcı adı kullanılıyor!");
+
+                if (user.Email == data.Email)
+                    blr.AddError(ErrorCode.EmailAlreadyExists, "Bu e-posta adresi kullanılıyor!");
+            }
+            else
+            {
+                blr.Result.Password = Crypto.HashPassword(data.Password);
+                blr.Result.ActivateGuid = Guid.NewGuid();
+                blr.Result.ProfileImageFileName = "avatar.png";
+
+                if (base.Insert(blr.Result) == 0)
+                {
+                    blr.AddError(ErrorCode.UserCouldNotInserted, "Kullanıcı ekleme işlemi başarısız!");
+                }
+            }
+
+            return blr;
+        }
+
+        public new BusinessLayerResult<EvernoteUser> Update(EvernoteUser data)
+        {
+            EvernoteUser db_user = Find(x => (x.Username == data.Username || x.Email == data.Email) && x.Id != data.Id);
+            BusinessLayerResult<EvernoteUser> blr = new BusinessLayerResult<EvernoteUser>();
+
+            if (db_user != null)
+            {
+                if (db_user.Username == data.Username)
+                {
+                    blr.AddError(ErrorCode.UsernameAlreadyExists, "Kullanıcı adı kullanılıyor");
+                }
+
+                if (db_user.Email == data.Email)
+                {
+                    blr.AddError(ErrorCode.EmailAlreadyExists, "E-posta adresi kullanılıyor");
+                }
+
+                return blr;
+            }
+
+            blr.Result = Find(x => x.Id == data.Id);
+
+            blr.Result.Username = data.Username;
+            blr.Result.Email = data.Email;
+            blr.Result.Name = data.Name;
+            blr.Result.Surname = data.Surname;
+            blr.Result.IsActive = data.IsActive;
+            blr.Result.IsAdmin = data.IsAdmin;
+            blr.Result.Password = Crypto.HashPassword(data.Password);
+
+            if (base.Update(blr.Result) == 0)
+            {
+                blr.AddError(ErrorCode.UserCouldNotUpdated, "Kullanıcı güncellenemedi!");
             }
 
             return blr;

@@ -1,4 +1,5 @@
-﻿using MyEvernote.DataAccessLayer.EF;
+﻿using MyEvernote.BusinessLayer.Abstract;
+using MyEvernote.DataAccessLayer.EF;
 using MyEvernote.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,15 +10,44 @@ using System.Threading.Tasks;
 
 namespace MyEvernote.BusinessLayer
 {
-    public class CategoryManager
+    public class CategoryManager : ManagerBase<Category>
     {
-        private Repository<Category> catRepo = new Repository<Category>();
+        // Veri tabanından ilişkili bir veri silmek için önce o verinin ilişkili olduğu diğer veriler silinmelidir. Burada kategori silmek için aşağıdaki adımlar izleniyor: Önce kategoriye ait notlar silinmelidir, Notlarında silinebilmesi için notların ilişkili olduğu yorumlar ve beğeniler silinmelidir.
 
-        public Category GetCategoryById(int id, bool withoutNote)
+        //public override int Delete(Category category)
+        //{
+        //    NoteManager noteManager = new NoteManager();
+        //    CommentManager commentManager = new CommentManager();
+        //    LikedManager likedManager = new LikedManager();
+
+        //    // Kategori ile ilişkili notların silinmesi gerekiyor.
+        //    foreach (Note note in category.Notes.ToList()) // Silme işlemi yapılacağı için ToList methodu çağrılıyor her defasında
+        //    {
+
+        //        // Not ile ilişkili yorumların silinmesi gerekiyor.
+        //        foreach (Comment comment in note.Comments.ToList())
+        //        {
+        //            commentManager.Delete(comment);
+        //        }
+
+        //        // Not ile ilişkili beğenilerin silinmesi
+        //        foreach (Liked liked in note.Likes.ToList())
+        //        {
+        //            likedManager.Delete(liked);
+        //        }
+
+        //        noteManager.Delete(note);
+        //    }
+
+        //    return base.Delete(category);
+        //}
+
+        public Category GetCategoryById(int id, bool withoutNote = true)
         {
             if (withoutNote == true)
             {
-                return catRepo.QueryableList().Where(c => c.Id == id).Select(a => new
+                //Burada isimsiz bir nesne oluşturulur ve bu nesnenin property'lerine veri tabanından istenilen sütün değerleri basılır. Daha sonra bu isimsiz nesne ile yeni bir Category nesnesi oluşturulur ve geriye döndürülür. Amaç: veritabanından Category nesnesine ait bütün sütün değerlerini çekmek yerine sadece istenilen sütünların değerlerini çekmek
+                return QueryableList().Where(c => c.Id == id).Select(a => new
                 {
                     _Id = a.Id,
                     _Title = a.Title,
@@ -38,20 +68,15 @@ namespace MyEvernote.BusinessLayer
             }
             else
             {
-                return catRepo.Find(x => x.Id == id);
+                return Find(x => x.Id == id);
             }
         }
 
-        //public Category GetCategoryById(int id,int skipNoteCount, int takeNoteCount)
-        //{
-        //    return catRepo.QueryableList().
-        //}
-
-        public List<Category> GetCategories(bool withoutNote)
+        public List<Category> GetCategories(bool withoutNote = true)
         {
             if (withoutNote == true)
             {
-                return catRepo.QueryableList().Select(a => new
+                return QueryableList().Select(a => new
                 {
                     _Id = a.Id,
                     _Title = a.Title,
@@ -72,14 +97,14 @@ namespace MyEvernote.BusinessLayer
             }
             else
             {
-                return catRepo.List();
+                return List();
             }
         }
         public List<Category> GetCategories(bool withoutNote, int skipCount, int takeCount)
         {
             if (withoutNote == true)
             {
-                return catRepo.QueryableList().OrderByDescending(c => c.ModifiedOn).Skip(skipCount).Take(takeCount).Select(a => new
+                return QueryableList().OrderByDescending(c => c.ModifiedOn).Skip(skipCount).Take(takeCount).Select(a => new
                 {
                     _Id = a.Id,
                     _Title = a.Title,
@@ -100,7 +125,7 @@ namespace MyEvernote.BusinessLayer
             }
             else
             {
-                return catRepo.QueryableList().OrderByDescending(c => c.ModifiedOn).Skip(skipCount).Take(takeCount).ToList();
+                return QueryableList().OrderByDescending(c => c.ModifiedOn).Skip(skipCount).Take(takeCount).ToList();
             }
         }
     }

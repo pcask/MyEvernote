@@ -42,30 +42,41 @@
 
                     @if (user != null)
                     {
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-cogs"></i>
                                 Yönetim
                             </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                @Bootstrap.LinkMenu("dropdown-item", "/Note/Create", "plus-circle", "Not Ekle")
+
+                                <div class="dropdown-divider"></div>
+                                @Bootstrap.LinkMenu("dropdown-item", "/Note/Index", "th-list", "Notlarım")
+                                @Bootstrap.LinkMenu("dropdown-item", "/Note/MyLikedNotes", "heart", "Beğendiklerim")
+
+                                @if (user.IsAdmin)
+                                {
+                                    <div class="dropdown-divider"></div>
+                                    @Bootstrap.LinkMenu("dropdown-item", "/Category/Create", "plus-circle", "Kategori Ekle")
+                                    @Bootstrap.LinkMenu("dropdown-item", "/Category/Index", "th-list", "Kategoriler")
+
+                                    <div class="dropdown-divider"></div>
+                                    @Bootstrap.LinkMenu("dropdown-item", "/EvernoteUser/Create", "plus-circle", "Kullanıcı Ekle")
+                                    @Bootstrap.LinkMenu("dropdown-item", "/EvernoteUser/Index", "th-list", "Kullanıcılar")
+                                }
+
+                            </div>
                         </li>
                     }
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/MostLiked">
-                            <i class="fa fa-heart"></i>
-                            En Beğenilenler
-                        </a>
+                        @Bootstrap.LinkMenu("nav-link", "/Home/MostLiked", "heart", "En Beğenilenler")
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/Index">
-                            <i class="fa fa-list"></i>
-                            Son Yazılar
-                        </a>
+                        @Bootstrap.LinkMenu("nav-link", "/Home/Index", "list", "Son Yazılar")
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/About">
-                            <i class="fa fa-info-circle"></i>
-                            Hakkımızda
-                        </a>
+                        @Bootstrap.LinkMenu("nav-link", "/Home/About", "info-circle", "Hakkımızda")
                     </li>
                 </ul>
 
@@ -76,31 +87,38 @@
                     @if (user == null)
                     {
                         <li class="nav-item">
-                            <a class="nav-link" href="/Home/Login">
-                                <i class="fa fa-sign-in"></i>
-                                Giriş
-                            </a>
+                            @Bootstrap.LinkMenu("nav-link", "/Home/Login", "sign-in", "Giriş")
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Home/Register">
-                                <i class="fa fa-user-plus"></i>
-                                Üye Ol
-                            </a>
+                            @Bootstrap.LinkMenu("nav-link", "/Home/Register", "user-plus", "Üye Ol")
                         </li>
                     }
                     else
                     {
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Home/ShowProfile">
-                                <i class="fa fa-user"></i>
-                                @user.Username
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user"></i> @user.Username
                             </a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                @Bootstrap.LinkMenu("dropdown-item", "/Home/ShowProfile", "user", "Profilim")
+
+                                <div class="dropdown-divider"></div>
+                                @Bootstrap.LinkMenu("dropdown-item", "/Home/EditProfile", "edit", "Düzenle")
+                                @Bootstrap.LinkMenu("dropdown-item", "/Home/ChangePass", "key", "Şifre Değiştir")
+
+                                <a class="dropdown-item" href="/Home/DeleteProfile" onclick="return confirm('Hesabınızı Silmek İstediğinize Emin Misiniz?')">
+                                    <i class="fa fa-trash-o"></i> Sil
+                                </a>
+
+                            </div>
                         </li>
+
+
                         <li class="nav-item">
-                            <a class="nav-link" href="/Home/Logout">
-                                <i class="fa fa-sign-out"></i>
-                                Çıkış
-                            </a>
+                            @Bootstrap.LinkMenu("nav-link", "/Home/Logout", "sign-out", "Çıkış")
                         </li>
                     }
                 </ul>

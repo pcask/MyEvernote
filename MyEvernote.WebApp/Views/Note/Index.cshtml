@@ -1,0 +1,64 @@
+﻿
+@model IEnumerable<MyEvernote.Entities.Note>
+
+@{
+    ViewBag.Title = "Notlarım";
+}
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12 mt-5 mb-3">
+            <h2>@ViewBag.Title</h2>
+        </div>
+    </div>
+
+    <div class="form-group row justify-content-end">
+        <a href="/Note/Create" class="btn btn-primary mx-3"><i class="fa fa-plus-circle"></i> Not Ekle</a>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LikeCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDraft)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LikeCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDraft)
+                </td>
+                <td class="text-right">
+                    @Bootstrap.LinkButton("/Note/Edit/" + item.Id, "warning", "btn-sm", "Düzenle", "edit", String.Empty)
+                    @Bootstrap.LinkButton("/Note/Details/" + item.Id, "info", "btn-sm", "Detay", "search", String.Empty)
+                    @Bootstrap.LinkButton("/Note/Delete/" + item.Id, "danger", "btn-sm", "Sil", "trash", String.Empty)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>
+
+

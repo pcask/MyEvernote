@@ -50,7 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="EF\DatabaseContext.cs" />
     <Compile Include="EF\Repository.cs" />
     <Compile Include="EF\RepositoryBase.cs" />
@@ -68,10 +67,17 @@
       <Project>{23b97b6e-29d4-4c9c-a279-2a39bd322a58}</Project>
       <Name>MyEvernote.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyEvernote.Core\MyEvernote.Core.csproj">
+      <Project>{12e94189-338e-4e64-b4e2-132acc3d327c}</Project>
+      <Name>MyEvernote.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyEvernote.Entities\MyEvernote.Entities.csproj">
       <Project>{40e01706-fcc0-4c26-aebb-a99921106c14}</Project>
       <Name>MyEvernote.Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Abstract\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

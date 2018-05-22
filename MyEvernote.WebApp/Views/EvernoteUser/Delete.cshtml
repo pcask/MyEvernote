@@ -1,0 +1,108 @@
+﻿@model MyEvernote.Entities.EvernoteUser
+
+@{
+    ViewBag.Title = "Kullanıcıyı Sil";
+}
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12 mt-5 mb-3">
+            <h2>@ViewBag.Title</h2>
+        </div>
+    </div>
+
+    <div class="jumbotron">
+
+        <div class="row">
+
+            <div class="col-sm-12">
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Name)
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.Surname)
+                        </b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Surname)
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.Username)
+                        </b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Username)
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Email)
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.IsActive)
+                        </b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.IsActive)
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.IsAdmin)
+                        </b>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.IsAdmin)
+                    </div>
+                </div>
+
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group row justify-content-end">
+
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Kullanıcıyı Silmek İstediğinize Emin Misiniz?')"><i class="fa fa-trash"></i> Sil</button>
+                        @Bootstrap.LinkButton("/EvernoteUser/Index", "dark", "mx-3", String.Empty, "reply", "Geri Dön")
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+

@@ -47,7 +47,10 @@
                     </div>
 
                     <div class="form-group row justify-content-end">
-                        <button type="submit" class="btn btn-primary mr-3">Değiştir</button>
+
+                        @Bootstrap.Button("submit", "success", String.Empty, "save", "Kaydet")
+                        @Bootstrap.LinkButton("/Home/Index", "dark", "mx-3", String.Empty, "reply", "Geri Dön")
+
                     </div>
                 }
 
