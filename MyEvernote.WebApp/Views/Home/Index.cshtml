@@ -105,7 +105,7 @@
                                     </div>
 
                                     <div class="comments">
-                                        <button class="btn btn-light btn-sm">
+                                        <button class="btn btn-light btn-sm" data-toggle="modal" data-target="#commentModal" data-note-id="@note.Id">
                                             <i class="fa fa-comments-o"></i> Yorumlar
                                         </button>
                                     </div>
@@ -122,9 +122,17 @@
 
 </div>
 
-
 @section footer{
 
     @Html.Partial("_PartialFooter")
 
 }
+
+@Bootstrap.ModalPopup("commentModal", "Yorumlar", true)
+
+@section myScript{
+
+<script src="~/Scripts/myEvernoteComment.js"></script>
+
+}
+

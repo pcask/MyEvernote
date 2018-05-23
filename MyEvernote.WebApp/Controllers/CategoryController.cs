@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MyEvernote.BusinessLayer;
 using MyEvernote.Entities;
+using MyEvernote.WebApp.Models;
 
 namespace MyEvernote.WebApp.Controllers
 {
@@ -17,7 +18,7 @@ namespace MyEvernote.WebApp.Controllers
 
         public ActionResult Index()
         {
-            return View(cm.GetCategories());
+            return View(CacheHelper.GetCategoriesFromCache());
         }
 
         public ActionResult Details(int? id)
@@ -49,6 +50,8 @@ namespace MyEvernote.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 cm.Insert(category);
+                CacheHelper.RemoveCategoryFromCache();
+
                 return RedirectToAction("Index");
             }
 
@@ -82,6 +85,8 @@ namespace MyEvernote.WebApp.Controllers
                 cat.Description = category.Description;
 
                 cm.Update(cat);
+                CacheHelper.RemoveCategoryFromCache();
+
                 return RedirectToAction("Index");
             }
             return View(category);
@@ -107,6 +112,8 @@ namespace MyEvernote.WebApp.Controllers
         {
             Category category = cm.Find(c => c.Id == id);
             cm.Delete(category);
+            CacheHelper.RemoveCategoryFromCache();
+
             return RedirectToAction("Index");
         }
 

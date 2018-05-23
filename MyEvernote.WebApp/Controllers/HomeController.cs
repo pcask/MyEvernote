@@ -3,6 +3,7 @@ using MyEvernote.BusinessLayer.Results;
 using MyEvernote.Entities;
 using MyEvernote.Entities.Messages;
 using MyEvernote.Entities.ValueObjects;
+using MyEvernote.WebApp.Models;
 using MyEvernote.WebApp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -149,7 +150,8 @@ namespace MyEvernote.WebApp.Controllers
                     return View(model);
                 }
 
-                Session["login"] = blr.Result;
+                CurrentSession.Set<EvernoteUser>("login", blr.Result);
+
                 return RedirectToAction("Index");
             }
 
@@ -158,10 +160,10 @@ namespace MyEvernote.WebApp.Controllers
 
         public ActionResult ShowProfile()
         {
-            if (Session["login"] != null)
-            {
-                EvernoteUser currentUser = Session["login"] as EvernoteUser;
+            EvernoteUser currentUser = CurrentSession.User;
 
+            if (currentUser != null)
+            {
                 EvernoteUserManager eum = new EvernoteUserManager();
                 BusinessLayerResult<EvernoteUser> blr = eum.GetUserById(currentUser.Id);
 
@@ -187,10 +189,10 @@ namespace MyEvernote.WebApp.Controllers
 
         public ActionResult EditProfile()
         {
-            if (Session["login"] != null)
-            {
-                EvernoteUser currentUser = Session["login"] as EvernoteUser;
+            EvernoteUser currentUser = CurrentSession.User;
 
+            if (currentUser != null)
+            {
                 EvernoteUserManager eum = new EvernoteUserManager();
                 BusinessLayerResult<EvernoteUser> blr = eum.GetUserById(currentUser.Id);
 
@@ -249,7 +251,7 @@ namespace MyEvernote.WebApp.Controllers
                     return View("Error", errorModel);
                 }
 
-                Session["login"] = blr.Result; // Profil güncellendiği için session da güncellenmeli
+                CurrentSession.Set<EvernoteUser>("login", blr.Result); // Profil güncellendiği için session da güncellenmeli
 
                 return RedirectToAction("ShowProfile");
             }
@@ -267,10 +269,9 @@ namespace MyEvernote.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Session["login"] != null)
+                EvernoteUser currentUser = CurrentSession.User;
+                if (currentUser != null)
                 {
-                    EvernoteUser currentUser = Session["Login"] as EvernoteUser;
-
                     BusinessLayerResult<EvernoteUser> blr = eum.ChangePass(currentUser, model);
 
                     if (blr.Errors.Count > 0)
@@ -309,9 +310,10 @@ namespace MyEvernote.WebApp.Controllers
 
         public ActionResult DeleteProfile()
         {
-            if (Session["login"] != null)
+            EvernoteUser currentUser = CurrentSession.User;
+
+            if (currentUser != null)
             {
-                EvernoteUser currentUser = Session["login"] as EvernoteUser;
                 BusinessLayerResult<EvernoteUser> blr = eum.RemoveUserById(currentUser.Id);
 
                 if (blr.Errors.Count > 0)

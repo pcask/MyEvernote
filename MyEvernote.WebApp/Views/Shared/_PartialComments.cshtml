@@ -1,0 +1,59 @@
+﻿
+@using MyEvernote.Entities;
+@using MyEvernote.WebApp.Models
+
+@model List<Comment>
+
+@{
+    EvernoteUser currentUser = CurrentSession.User;
+}
+
+@foreach (Comment comment in Model)
+{
+    <div class="media">
+        <img class="align-self-start mr-3" width="50" height="50" src="~/Images/Users/@comment.Owner.ProfileImageFileName" alt="Generic placeholder image">
+
+        <div class="media-body">
+
+            <div class="comment-info justify-content-between form-inline mb-2">
+                <div><a href="#"><i class="fa fa-user"></i> @comment.Owner.Username</a></div>
+                <div><i class="fa fa-clock-o"></i> @comment.ModifiedOn.ToString("dd.MM.yyyy HH:mm")</div>
+
+                @if (currentUser != null && currentUser.Id == comment.Owner.Id)
+                {
+                    <div>
+                        <button type="button" class="btn btn-warning btn-sm" data-edit-mode="false" onclick="doComment(this, 'edit_clicked', @comment.Id, 'comment_text_@comment.Id')"><i class="fa fa-edit"></i></button>
+                        <button type="button" class="btn btn-danger mx-1 btn-sm" onclick="doComment(this, 'delete_clicked', @comment.Id)"><i class="fa fa-trash"></i></button>
+                    </div>
+                }
+            </div>
+
+            <div class="comment-text">
+                <span id="comment_text_@comment.Id" contenteditable="false">
+                    @comment.Text
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr />
+}
+
+@if (currentUser != null)
+{
+    <div class="input-group input-group-sm">
+        <textarea id="newComment" class="form-control" placeholder="Yorumunuz..."></textarea>
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="button" onclick="doComment(this, 'new_clicked', -1, 'newComment')"><i class="fa fa-send"></i> Gönder</button>
+        </div>
+    </div>
+}
+else
+{
+    <script>
+        $("#commentModal_body").children("hr").last().remove();
+    </script>
+}
+

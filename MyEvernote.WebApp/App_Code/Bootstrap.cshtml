@@ -30,3 +30,31 @@
 {
     <a class="@cssClass" href="@url"><i class="fa fa-@icon"></i> @text</a>
 }
+
+
+@helper ModalPopup(string id = "myModal", string title = "Modal Title", bool showCloseButton = true)
+{
+    //Modal
+    <div class="modal fade" id="@id" name="@id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" id="@(id +"_header")">
+                    <h5 class="modal-title" id="exampleModalLongTitle">@title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="@(id +"_body")">
+
+                </div>
+                <div class="modal-footer" id="@(id +"_footer")">
+                    @if (showCloseButton)
+                    {
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

@@ -1,5 +1,6 @@
 ﻿using MyEvernote.Common;
 using MyEvernote.Entities;
+using MyEvernote.WebApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,12 @@ namespace MyEvernote.WebApp.InitializerObject
     {
         public string GetCurrentUsername()
         {
-            if (HttpContext.Current.Session["login"] != null)
-            {
-                EvernoteUser user = HttpContext.Current.Session["login"] as EvernoteUser;
+            EvernoteUser currentUser = CurrentSession.User;
 
-                return user.Username;
-            }
-
-            return "system";
+            if (currentUser != null)
+                return currentUser.Username;
+            else
+                return "system";
         }
     }
 }

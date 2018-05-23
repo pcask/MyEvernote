@@ -49,7 +49,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.IsDraft)
                 </td>
-                <td class="text-right">
+                <td class="text-right" style="width:170px; min-width:170px;">
+                    <button type="button" class="btn btn-success btn-sm" title="Yorumlar" data-toggle="modal" data-target="#commentModal" data-note-id="@item.Id">
+                        <i class="fa fa-comments-o"></i>
+                    </button>
                     @Bootstrap.LinkButton("/Note/Edit/" + item.Id, "warning", "btn-sm", "Düzenle", "edit", String.Empty)
                     @Bootstrap.LinkButton("/Note/Details/" + item.Id, "info", "btn-sm", "Detay", "search", String.Empty)
                     @Bootstrap.LinkButton("/Note/Delete/" + item.Id, "danger", "btn-sm", "Sil", "trash", String.Empty)
@@ -62,3 +65,10 @@
 </div>
 
 
+@Bootstrap.ModalPopup("commentModal", "Yorumlar", true)
+
+@section myScript{
+
+    <script src="~/Scripts/myEvernoteComment.js"></script>
+
+}
