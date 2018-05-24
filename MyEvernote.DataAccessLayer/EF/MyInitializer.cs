@@ -18,7 +18,7 @@ namespace MyEvernote.DataAccessLayer.EF
                 Surname = "Yüce",
                 Username = "pcask",
                 Email = "sezer.ayran@gmail.com",
-                Password = "qaZ*123456",
+                Password = "AI7EvQJ+IHoAJJ969mielyI9N8L+KshNvhNjccVQ4U6sTFrDH8aIvI5B5IeenFk9JA==", // qaZ*123456
                 ProfileImageFileName = "avatar.png",
                 ActivateGuid = Guid.NewGuid(),
                 IsActive = true,
@@ -33,8 +33,8 @@ namespace MyEvernote.DataAccessLayer.EF
                 Name = "Sendemi",
                 Surname = "Brutus",
                 Username = "komplo123",
-                Email = "sezer.ayran@gmail.com",
-                Password = "qaZ*123456",
+                Email = "sendemi.brutus@bizans.biz",
+                Password = "AI7EvQJ+IHoAJJ969mielyI9N8L+KshNvhNjccVQ4U6sTFrDH8aIvI5B5IeenFk9JA==",
                 ProfileImageFileName = "avatar.png",
                 ActivateGuid = Guid.NewGuid(),
                 IsActive = true,
@@ -56,7 +56,7 @@ namespace MyEvernote.DataAccessLayer.EF
                     Surname = FakeData.NameData.GetSurname(),
                     Username = $"user{i + 1}",
                     Email = FakeData.NetworkData.GetEmail(),
-                    Password = "qaZ*123456",
+                    Password = "AI7EvQJ+IHoAJJ969mielyI9N8L+KshNvhNjccVQ4U6sTFrDH8aIvI5B5IeenFk9JA==",
                     ProfileImageFileName = "avatar.png",
                     ActivateGuid = Guid.NewGuid(),
                     IsActive = true,
@@ -121,14 +121,19 @@ namespace MyEvernote.DataAccessLayer.EF
                         note.Comments.Add(comment);
                     }
 
-
                     // Like Ekleme İşlemi...
+                    List<EvernoteUser> tempUserList = new List<EvernoteUser>();
+                    userList.ForEach(x => tempUserList.Add(x));
+
                     for (int m = 0; m < note.LikeCount; m++)
                     {
+                        int randomIndex = FakeData.NumberData.GetNumber(0, tempUserList.Count);
                         Liked liked = new Liked()
                         {
-                            LikedUser = userList[m]
+                            LikedUser = tempUserList[randomIndex]
                         };
+
+                        tempUserList.RemoveAt(randomIndex);
 
                         note.Likes.Add(liked);
                     }

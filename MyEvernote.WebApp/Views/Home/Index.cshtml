@@ -1,4 +1,6 @@
-﻿@using MyEvernote.Entities
+﻿
+@using MyEvernote.WebApp.Models;
+@using MyEvernote.Entities;
 @model List<Note>
 
 @{
@@ -25,13 +27,13 @@
                 </ol>
                 <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">
+                        <img class="d-block img-fluid" src="~/Images/900x350.png" alt="First slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
+                        <img class="d-block img-fluid" src="~/Images/900x350.png" alt="Second slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
+                        <img class="d-block img-fluid" src="~/Images/900x350.png" alt="Third slide">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -65,9 +67,9 @@
 
                 @foreach (Note note in Model)
                 {
-                    <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="col-lg-6 col-md-6 mb-4" data-note-id="@note.Id">
                         <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt="@note.Title" title="@note.Title"></a>
+                            <a href="#"><img class="card-img-top" src="~/Images/700x400.png" alt="@note.Title" title="@note.Title"></a>
                             <div class="card-body">
                                 <div class="card-info justify-content-between form-inline">
                                     <div><a href="#"><i class="fa fa-user"></i> @note.Owner.Username</a></div>
@@ -99,8 +101,8 @@
                             <div class="card-footer">
                                 <div class="form-inline justify-content-between">
                                     <div class="like">
-                                        <button class="btn btn-light btn-sm">
-                                            <i class="fa fa-heart-o"></i> @note.LikeCount
+                                        <button class="btn btn-light btn-sm" data-note-id="@note.Id" data-liked="false">
+                                            <i class="like-icon fa fa-heart-o"></i>&nbsp;<span class="like-count">@note.LikeCount</span>
                                         </button>
                                     </div>
 
@@ -132,7 +134,26 @@
 
 @section myScript{
 
-<script src="~/Scripts/myEvernoteComment.js"></script>
+    <script src="~/Scripts/myEvernoteComment.js"></script>
+
+    @if (CurrentSession.User != null)
+    {
+        <script src="~/Scripts/myEvernoteLike.js"></script>
+    }
+    else
+    {
+        <script>
+
+            $(function () {
+
+                $("button[data-liked]").click(function () {
+                    alert("Beğeni İşlemi İçin Sisteme Giriş Yapmalısınız");
+                });
+
+            });
+
+        </script>
+    }
 
 }
 

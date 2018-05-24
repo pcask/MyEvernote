@@ -121,6 +121,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\700x400.png" />
+    <Content Include="Images\900x350.png" />
     <Content Include="Images\loader.gif" />
     <Content Include="Images\Users\avatar.png" />
     <Content Include="index.html" />
@@ -160,6 +162,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\myEvernote.js" />
     <Content Include="Scripts\myEvernoteComment.js" />
+    <Content Include="Scripts\myEvernoteLike.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />

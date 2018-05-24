@@ -60,7 +60,6 @@ namespace MyEvernote.WebApp.Controllers
             return View();
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Note note)
@@ -143,6 +142,64 @@ namespace MyEvernote.WebApp.Controllers
             noteManager.Delete(note);
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult GetLiked(int[] noteIdList)
+        {
+            if (noteIdList == null || noteIdList.Length <= 0)
+                return null;
+
+            // Örnek sorgu - 1
+            //List<int> likedNoteIdList = (from liked in likedManager.QueryableList()
+            //                            where noteIdList.Contains(liked.Note.Id) && liked.LikedUser.Id == CurrentSession.User.Id
+            //                            select liked.Note.Id).ToList();
+
+            // Örnek Sorgu - 2
+            List<int> likedNoteIdList = likedManager.List(
+                x => x.LikedUser.Id == CurrentSession.User.Id && noteIdList.Contains(x.Note.Id)).Select(
+                x => x.Note.Id).ToList();
+
+            return Json(new { result = likedNoteIdList }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpPost]
+        public ActionResult SetLikeStatus(int noteId, bool liking)
+        {
+            Liked liked = likedManager.Find(x => x.Note.Id == noteId && x.LikedUser.Id == CurrentSession.User.Id);
+
+            Note note = noteManager.Find(x => x.Id == noteId);
+
+            int result = 0;
+
+            if (liked != null && liking == false)
+            {
+                result = likedManager.Delete(liked);
+            }
+            else if (liked == null && liking == true)
+            {
+                result = likedManager.Insert(new Liked
+                {
+                    LikedUser = CurrentSession.User,
+                    Note = note
+                });
+            }
+
+            if (result > 0)
+            {
+                if (liking == true)
+                    note.LikeCount++;
+                else
+                    note.LikeCount--;
+
+                if (noteManager.Update(note) > 0)
+                    return Json(new { errorMessage = String.Empty, hasError = false, result = note.LikeCount });
+
+            }
+
+            return Json(new { errorMessage = "Beğenme işlemi başarısız!", hasError = true, result = note.LikeCount });
+
         }
 
     }
