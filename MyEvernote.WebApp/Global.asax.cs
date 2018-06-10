@@ -1,4 +1,5 @@
 ﻿using MyEvernote.Common;
+using MyEvernote.WebApp.Filters;
 using MyEvernote.WebApp.InitializerObject;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace MyEvernote.WebApp
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
+            // Yazmış olduğumuz MyException isimli Filter'ı Action seviyesinde, Controller seviyesinde veya buradaki gibi Application seviyesinde uygulayabiliriz.
+            GlobalFilters.Filters.Add(new MyException());
 
             App.common = new WebCommon();
         }

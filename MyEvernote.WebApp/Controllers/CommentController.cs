@@ -1,5 +1,6 @@
 ﻿using MyEvernote.BusinessLayer;
 using MyEvernote.Entities;
+using MyEvernote.WebApp.Filters;
 using MyEvernote.WebApp.Models;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace MyEvernote.WebApp.Controllers
             return PartialView("_PartialComments", note.Comments);
         }
 
+        [MyAuthorization]
         [HttpPost]
         public ActionResult Edit(int? id, string text)
         {
@@ -49,6 +51,7 @@ namespace MyEvernote.WebApp.Controllers
 
         }
 
+        [MyAuthorization]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -66,6 +69,7 @@ namespace MyEvernote.WebApp.Controllers
         }
 
         // Ajax ile gönderdiğimiz text isimli parametre burada Comment nesnesinin text property'sine otomatik olarak atanır.
+        [MyAuthorization]
         [HttpPost]
         public ActionResult Create(Comment comment, int? noteId) 
         {

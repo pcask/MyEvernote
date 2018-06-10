@@ -25,7 +25,6 @@ namespace MyEvernote.WebApp
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
-
         }
     }
 }

@@ -8,10 +8,13 @@ using System.Web;
 using System.Web.Mvc;
 using MyEvernote.BusinessLayer;
 using MyEvernote.Entities;
+using MyEvernote.WebApp.Filters;
 using MyEvernote.WebApp.Models;
 
 namespace MyEvernote.WebApp.Controllers
 {
+    [MyAuthorization]
+    [MyAuthorizationAdmin]
     public class CategoryController : Controller
     {
         CategoryManager cm = new CategoryManager();

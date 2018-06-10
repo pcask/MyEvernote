@@ -1,0 +1,31 @@
+﻿
+@using MyEvernote.Entities;
+
+@model Note
+
+<div class="media mt-3">
+    <img class="align-self-start mr-3" width="50" height="50" src="~/Images/Users/@Model.Owner.ProfileImageFileName" alt="Generic placeholder image">
+
+    <div class="media-body">
+
+        <div class="comment-info justify-content-between form-inline mb-2">
+            <div><a href="#"><i class="fa fa-user"></i> @Model.Owner.Username</a></div>
+            <div><i class="fa fa-clock-o"></i> @Model.ModifiedOn.ToString("dd.MM.yyyy HH:mm")</div>
+        </div>
+
+        <div class="text-center">
+            <h4>
+                @Model.Title
+            </h4>
+        </div>
+
+        <div class="text-justify">
+            <p>
+                @Model.Text
+            </p>
+        </div>
+    </div>
+
+</div>
+
+

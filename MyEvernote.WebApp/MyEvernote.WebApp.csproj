@@ -163,6 +163,7 @@
     <Content Include="Scripts\myEvernote.js" />
     <Content Include="Scripts\myEvernoteComment.js" />
     <Content Include="Scripts\myEvernoteLike.js" />
+    <Content Include="Scripts\myEvernoteNote.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -192,6 +193,9 @@
     <Compile Include="Controllers\EvernoteUserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NoteController.cs" />
+    <Compile Include="Filters\MyAuthorization.cs" />
+    <Compile Include="Filters\MyAuthorizationAdmin.cs" />
+    <Compile Include="Filters\MyException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -238,6 +242,7 @@
     <Content Include="Views\Note\Edit.cshtml" />
     <Content Include="Views\Note\Index.cshtml" />
     <Content Include="Views\Shared\_PartialComments.cshtml" />
+    <Content Include="Views\Shared\_PartialNoteText.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

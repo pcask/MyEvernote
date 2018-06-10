@@ -34,6 +34,15 @@
                 </span>
             </div>
 
+            @if (currentUser != null && currentUser.Id != comment.Owner.Id)
+            {
+                <div class="comment-reply text-right">
+                    <span id="comment_reply_@comment.Id">
+                        <a href="#"><i class="fa fa-reply"></i> Cevapla</a>
+                    </span>
+                </div>
+            }
+
         </div>
 
     </div>

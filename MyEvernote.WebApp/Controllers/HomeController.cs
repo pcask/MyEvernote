@@ -3,6 +3,7 @@ using MyEvernote.BusinessLayer.Results;
 using MyEvernote.Entities;
 using MyEvernote.Entities.Messages;
 using MyEvernote.Entities.ValueObjects;
+using MyEvernote.WebApp.Filters;
 using MyEvernote.WebApp.Models;
 using MyEvernote.WebApp.ViewModels;
 using System;
@@ -22,7 +23,7 @@ namespace MyEvernote.WebApp.Controllers
 
         public ActionResult Index()
         {
-            return View(nm.QueryableList().OrderByDescending(n => n.ModifiedOn).Take(6).ToList());
+            return View(nm.QueryableList().Where(x => x.IsDraft == false).OrderByDescending(n => n.ModifiedOn).Take(6).ToList());
         }
 
         public ActionResult ByCategory(int? id)
@@ -35,7 +36,7 @@ namespace MyEvernote.WebApp.Controllers
                 return HttpNotFound();
 
             ViewBag.Baslik = cat.Title + " Notları";
-            return View("Index", nm.QueryableList().Where(n => n.CategoryId == id.Value).OrderByDescending(m => m.ModifiedOn).Take(6).ToList());
+            return View("Index", nm.QueryableList().Where(n => n.CategoryId == id.Value && n.IsDraft == false).OrderByDescending(m => m.ModifiedOn).Take(6).ToList());
         }
 
         public ActionResult MostLiked()
@@ -158,6 +159,7 @@ namespace MyEvernote.WebApp.Controllers
             return View(model);
         }
 
+        [MyAuthorization]
         public ActionResult ShowProfile()
         {
             EvernoteUser currentUser = CurrentSession.User;
@@ -187,6 +189,7 @@ namespace MyEvernote.WebApp.Controllers
             return RedirectToAction("Login");
         }
 
+        [MyAuthorization]
         public ActionResult EditProfile()
         {
             EvernoteUser currentUser = CurrentSession.User;
@@ -216,6 +219,7 @@ namespace MyEvernote.WebApp.Controllers
             return RedirectToAction("Login");
         }
 
+        [MyAuthorization]
         [HttpPost]
         public ActionResult EditProfile(EvernoteUser model, HttpPostedFileBase profileImage)
         {
@@ -259,11 +263,13 @@ namespace MyEvernote.WebApp.Controllers
             return View(model);
         }
 
+        [MyAuthorization]
         public ActionResult ChangePass()
         {
             return View(new ChangePasswordVO());
         }
 
+        [MyAuthorization]
         [HttpPost]
         public ActionResult ChangePass(ChangePasswordVO model)
         {
@@ -308,6 +314,7 @@ namespace MyEvernote.WebApp.Controllers
 
         }
 
+        [MyAuthorization]
         public ActionResult DeleteProfile()
         {
             EvernoteUser currentUser = CurrentSession.User;
@@ -344,6 +351,38 @@ namespace MyEvernote.WebApp.Controllers
             Session.Clear();
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult AccessDenied()
+        {
+            ErrorViewModel errorModel = new ErrorViewModel
+            {
+                Header = "Yetkisiz Erişim",
+                RedirectingUrl = "/Home/Index",
+                RedirectingPageName = "Ana Sayfa"
+            };
+
+            errorModel.Items.Add("Bu sayfaya erişim yetkiniz bulunmamaktadır.");
+
+            return View("Error", errorModel);
+        }
+
+        public ActionResult HasError()
+        {
+            ErrorViewModel errorView = new ErrorViewModel
+            {
+                RedirectingUrl = "/Home/Index",
+                RedirectingPageName = "Ana Sayfa"
+            };
+
+            if (TempData["LastError"] != null)
+            {
+                Exception exception = TempData["LastError"] as Exception;
+
+                errorView.Items.Add(exception.Message);
+            }
+
+            return View("Error", errorView);
         }
     }
 }
